@@ -1,6 +1,32 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
+// Expertise tags with tooltips
+const expertiseTags = {
+  nl: [
+    { name: "Python", tooltip: "Mijn favoriete programmeertaal voor AI en data science projecten" },
+    { name: "RAG", tooltip: "Retrieval Augmented Generation: AI die antwoorden baseert op jouw eigen documenten" },
+    { name: "LLMs", tooltip: "Large Language Models zoals ChatGPT en Claude, de motor achter moderne AI-assistenten" },
+    { name: "AI Agents", tooltip: "Autonome AI-systemen die taken zelfstandig kunnen uitvoeren" },
+    { name: "Vector Databases", tooltip: "Databases voor semantisch zoeken in grote hoeveelheden tekst" },
+    { name: "Prompt Engineering", tooltip: "De kunst van het schrijven van effectieve AI-instructies" },
+    { name: "Google Cloud", tooltip: "Cloud platform voor schaalbare en veilige AI-oplossingen" },
+    { name: "Docker", tooltip: "Containerisatie voor consistente en reproduceerbare deployments" },
+    { name: "Cloud Security", tooltip: "Beveiligingsmaatregelen voor data en systemen in de cloud" },
+  ],
+  en: [
+    { name: "Python", tooltip: "My go-to programming language for AI and data science projects" },
+    { name: "RAG", tooltip: "Retrieval Augmented Generation: AI that answers based on your own documents" },
+    { name: "LLMs", tooltip: "Large Language Models like ChatGPT and Claude, the engine behind modern AI assistants" },
+    { name: "AI Agents", tooltip: "Autonomous AI systems that can execute tasks independently" },
+    { name: "Vector Databases", tooltip: "Databases for semantic search across large amounts of text" },
+    { name: "Prompt Engineering", tooltip: "The art of writing effective AI instructions" },
+    { name: "Google Cloud", tooltip: "Cloud platform for scalable and secure AI solutions" },
+    { name: "Docker", tooltip: "Containerization for consistent and reproducible deployments" },
+    { name: "Cloud Security", tooltip: "Security measures for data and systems in the cloud" },
+  ],
+};
+
 // Translations
 const translations = {
   nl: {
@@ -24,18 +50,18 @@ const translations = {
     about: {
       label: "Over mij",
       title: "AI Engineer die techniek én business begrijpt",
-      text1: "Met meer dan 15 jaar ervaring in zowel technische als commerciële rollen weet ik wat er speelt aan beide kanten van de tafel. Ik bouw AI-kennissystemen en chatbots die complexe documentatie vertalen naar snelle, betrouwbare antwoorden. Altijd met oog voor de business case.",
-      text2: "Geen proof-of-concept dat in een la verdwijnt, maar werkende oplossingen die waarde leveren. Minder herhaalvragen, snellere doorlooptijden, en medewerkers die tijd hebben voor werk dat er écht toe doet.",
+      text1: "Met meer dan 15 jaar ervaring in zowel technische als commerciële rollen weet ik wat er speelt aan beide kanten van de tafel. Ik bouw AI-kennissystemen en chatbots die complexe documentatie vertalen naar snelle, betrouwbare antwoorden. De techniek moet kloppen, maar het moet ook iets opleveren.",
+      text2: "Geen proof-of-concept dat in een la verdwijnt, maar werkende oplossingen die waarde leveren. Minder herhaalvragen, snellere doorlooptijden. En medewerkers die weer tijd hebben voor werk dat er écht toe doet. Privacy en databeveiliging neem ik vanaf dag één mee.",
       stats: {
         experience: "Jaar ervaring",
         projects: "Projecten",
-        satisfaction: "Klanttevredenheid",
+        location: "Gebaseerd",
       },
     },
     quote: {
       text1: "AI vervangt geen mensen,",
       text2: "het geeft ze superkrachten.",
-      subtext: "Technologie die experts sneller, consistenter en effectiever maakt.",
+      subtext: "Technologie die experts beter en sneller maakt in wat ze doen.",
     },
     work: {
       label: "Projecten",
@@ -90,7 +116,6 @@ const translations = {
     footer: {
       copyright: "© 2026 Ralph van der Linden",
       kvk: "KVK 90506995",
-      privacy: "Privacy staat voorop in alles wat ik bouw.",
     },
   },
   en: {
@@ -114,18 +139,18 @@ const translations = {
     about: {
       label: "About me",
       title: "AI Engineer who understands tech and business",
-      text1: "With over 15 years of experience in both technical and commercial roles, I understand what matters on both sides of the table. I build AI knowledge systems and chatbots that transform complex documentation into fast, reliable answers. Always with an eye for the business case.",
-      text2: "No proof-of-concept that ends up in a drawer, but working solutions that deliver value. Fewer repetitive questions, faster turnaround times, and employees who have time for work that truly matters.",
+      text1: "With over 15 years of experience in both technical and commercial roles, I understand what matters on both sides of the table. I build AI knowledge systems and chatbots that transform complex documentation into fast, reliable answers. The tech needs to work, but it also needs to deliver results.",
+      text2: "No proof-of-concept that ends up in a drawer, but working solutions that deliver value. Fewer repetitive questions, faster turnaround times. And employees who have time again for work that truly matters. Privacy and data security are baked in from day one.",
       stats: {
         experience: "Years experience",
         projects: "Projects",
-        satisfaction: "Client satisfaction",
+        location: "Based",
       },
     },
     quote: {
       text1: "AI doesn't replace people,",
       text2: "it gives them superpowers.",
-      subtext: "Technology that makes experts faster, more consistent, and more effective.",
+      subtext: "Technology that makes experts better and faster at what they do.",
     },
     work: {
       label: "Projects",
@@ -180,7 +205,6 @@ const translations = {
     footer: {
       copyright: "© 2026 Ralph van der Linden",
       kvk: "KVK 90506995",
-      privacy: "Privacy is at the core of everything I build.",
     },
   },
 };
@@ -192,7 +216,7 @@ const projectsData = {
       title: "Vliegschool Kennisassistent",
       category: "Educatie & Luchtvaart",
       description: "Slimme studiehulp voor vliegleerlingen die 24/7 vragen beantwoordt over theorie en examenstof.",
-      details: "Een chatbot die fungeert als persoonlijke 'wingman' voor PPL-studenten. Het systeem doorzoekt lesstof, CBR-exameneisen, Europese luchtvaartwetgeving en richtlijnen van brancheorganisaties. Studenten krijgen direct antwoord op complexe vragen, of het nu gaat om meteorologie, navigatie of procedures. Resultaat: efficiënter studeren en hogere slagingspercentages.",
+      details: "Een chatbot die fungeert als persoonlijke 'wingman' voor PPL-studenten. Het systeem doorzoekt lesstof, CBR-exameneisen, Europese luchtvaartwetgeving en richtlijnen van brancheorganisaties. Studenten krijgen direct antwoord op vragen over meteorologie, navigatie of procedures. Ze studeren efficiënter en slagen vaker in één keer.",
       tech: ["GPT-4", "Python", "RAG"],
     },
     {
@@ -208,7 +232,7 @@ const projectsData = {
       title: "HR Kennisportaal",
       category: "Human Resources",
       description: "Automatische beantwoording van HR-vragen op basis van CAO en bedrijfsbeleid.",
-      details: "HR-medewerkers ontvangen dagelijks tientallen vragen over verlof, secundaire arbeidsvoorwaarden en bedrijfsregelingen. Dit systeem analyseert inkomende vragen, doorzoekt de CAO en het intranet, en stelt conceptantwoorden op. De HR-adviseur reviewt en verstuurt. Belangrijk: alle data blijft binnen de eigen infrastructuur van het bedrijf. Resultaat: 70% snellere responstijd en consistente, correcte antwoorden, ook bij piekdrukte.",
+      details: "HR-medewerkers ontvangen dagelijks tientallen vragen over verlof, secundaire arbeidsvoorwaarden en bedrijfsregelingen. Dit systeem doorzoekt de CAO en het intranet en stelt conceptantwoorden op. De HR-adviseur reviewt en verstuurt. Alle data blijft binnen de eigen infrastructuur van het bedrijf. De responstijd daalde met 70%, ook bij piekdrukte.",
       tech: ["Python", "Microsoft Azure", "GPT-4"],
     },
   ],
@@ -218,7 +242,7 @@ const projectsData = {
       title: "Flight School Knowledge Assistant",
       category: "Education & Aviation",
       description: "Smart study aid for flight students that answers questions about theory and exam material 24/7.",
-      details: "A chatbot that serves as a personal 'wingman' for PPL students. The system searches through course materials, exam requirements, European aviation legislation, and industry guidelines. Students get instant answers to complex questions, whether about meteorology, navigation, or procedures. Result: more efficient studying and higher pass rates.",
+      details: "A chatbot that serves as a personal 'wingman' for PPL students. The system searches through course materials, exam requirements, European aviation legislation, and industry guidelines. Students get instant answers to questions about meteorology, navigation, or procedures. They study more efficiently and pass more often on the first try.",
       tech: ["GPT-4", "Python", "RAG"],
     },
     {
@@ -234,7 +258,7 @@ const projectsData = {
       title: "HR Knowledge Portal",
       category: "Human Resources",
       description: "Automatic answering of HR questions based on collective agreements and company policy.",
-      details: "HR staff receive dozens of questions daily about leave, benefits, and company policies. This system analyzes incoming questions, searches the collective agreement and intranet, and drafts answers. The HR advisor reviews and sends. Important: all data stays within the company's own infrastructure. Result: 70% faster response time and consistent, accurate answers, even during peak times.",
+      details: "HR staff receive dozens of questions daily about leave, benefits, and company policies. This system searches the collective agreement and intranet and drafts answers. The HR advisor reviews and sends. All data stays within the company's own infrastructure. Response time dropped by 70%, even during peak times.",
       tech: ["Python", "Microsoft Azure", "GPT-4"],
     },
   ],
@@ -247,14 +271,14 @@ const blogPostsData = {
       title: "Hoe RAG aspirant piloten helpt sneller te slagen",
       date: "15 jan 2026",
       excerpt: "Een kijkje achter de schermen van de Vliegschool Kennisassistent en waarom RAG hier perfect werkt.",
-      content: "Bij het bouwen van de Vliegschool Kennisassistent was de uitdaging helder: hoe help je PPL-studenten door een berg aan lesstof, exameneisen en regelgeving? De oplossing: Retrieval Augmented Generation (RAG). In plaats van te vertrouwen op wat het model 'weet', doorzoekt het systeem eerst de complete database met CBR-leerdoelen, Europese luchtvaartwetgeving en lesmateriaal. Het resultaat? Nauwkeurige antwoorden met bronvermelding, zodat studenten niet alleen het antwoord krijgen, maar ook weten waar ze het kunnen verifiëren.",
+      content: "Bij het bouwen van de Vliegschool Kennisassistent was de uitdaging helder: hoe help je PPL-studenten door een berg aan lesstof, exameneisen en regelgeving? De oplossing: Retrieval Augmented Generation (RAG). In plaats van te vertrouwen op wat het model 'weet', doorzoekt het systeem eerst de complete database met CBR-leerdoelen, Europese luchtvaartwetgeving en lesmateriaal. Daardoor krijgen studenten nauwkeurige antwoorden mét bronvermelding. Ze weten niet alleen het antwoord, maar ook waar ze het kunnen verifiëren.",
     },
     {
       id: 2,
       title: "E-mail triage met AI: 40% minder repetitief werk",
       date: "8 jan 2026",
       excerpt: "Hoe automatische classificatie en antwoordgeneratie het supportteam van een hostingprovider transformeerde.",
-      content: "Supportteams besteden vaak het grootste deel van hun tijd aan dezelfde vragen: wachtwoord-resets, DNS-uitleg, facturatie. Bij de Smart Ticket Triage voor een webhostingbedrijf bouwde ik een systeem dat inkomende mails automatisch classificeert en waar mogelijk direct beantwoordt. De sleutel tot succes? Niet proberen álles te automatiseren. Het systeem herkent wanneer een vraag te complex is en stuurt deze met relevante context door naar de juiste medewerker. Resultaat: 40% tijdsbesparing én snellere responstijden.",
+      content: "Supportteams besteden vaak het grootste deel van hun tijd aan dezelfde vragen: wachtwoord-resets, DNS-uitleg, facturatie. Bij de Smart Ticket Triage voor een webhostingbedrijf bouwde ik een systeem dat inkomende mails automatisch classificeert en waar mogelijk direct beantwoordt. Belangrijk: niet proberen álles te automatiseren. Het systeem herkent wanneer een vraag te complex is en stuurt deze met relevante context door naar de juiste medewerker. Het supportteam bespaart nu 40% van hun tijd.",
     },
     {
       id: 3,
@@ -270,14 +294,14 @@ const blogPostsData = {
       title: "How RAG helps flight students pass faster",
       date: "Jan 15, 2026",
       excerpt: "A behind-the-scenes look at the Flight School Knowledge Assistant and why RAG works perfectly here.",
-      content: "When building the Flight School Knowledge Assistant, the challenge was clear: how do you help PPL students navigate a mountain of course material, exam requirements, and regulations? The solution: Retrieval Augmented Generation (RAG). Instead of relying on what the model 'knows', the system first searches the complete database with exam requirements, European aviation legislation, and study materials. The result? Accurate answers with source citations, so students not only get the answer but also know where to verify it.",
+      content: "When building the Flight School Knowledge Assistant, the challenge was clear: how do you help PPL students navigate a mountain of course material, exam requirements, and regulations? The solution: Retrieval Augmented Generation (RAG). Instead of relying on what the model 'knows', the system first searches the complete database with exam requirements, European aviation legislation, and study materials. This way, students get accurate answers with source citations. They know not only the answer, but also where to verify it.",
     },
     {
       id: 2,
       title: "Email triage with AI: 40% less repetitive work",
       date: "Jan 8, 2026",
       excerpt: "How automatic classification and response generation transformed a hosting provider's support team.",
-      content: "Support teams often spend most of their time on the same questions: password resets, DNS explanations, billing. For the Smart Ticket Triage at a web hosting company, I built a system that automatically classifies incoming emails and answers them directly where possible. The key to success? Not trying to automate everything. The system recognizes when a question is too complex and forwards it with relevant context to the right team member. Result: 40% time savings and faster response times.",
+      content: "Support teams often spend most of their time on the same questions: password resets, DNS explanations, billing. For the Smart Ticket Triage at a web hosting company, I built a system that automatically classifies incoming emails and answers them directly where possible. Important: not trying to automate everything. The system recognizes when a question is too complex and forwards it with relevant context to the right team member. The support team now saves 40% of their time.",
     },
     {
       id: 3,
@@ -441,20 +465,16 @@ function App() {
                   <span className="stat__label">{t.about.stats.projects}</span>
                 </div>
                 <div className="stat">
-                  <span className="stat__value">100%</span>
-                  <span className="stat__label">{t.about.stats.satisfaction}</span>
+                  <span className="stat__value">NL</span>
+                  <span className="stat__label">{t.about.stats.location}</span>
                 </div>
               </div>
               <div className="expertise">
-                <span className="expertise__tag">Python</span>
-                <span className="expertise__tag">RAG</span>
-                <span className="expertise__tag">LLMs</span>
-                <span className="expertise__tag">AI Agents</span>
-                <span className="expertise__tag">Vector Databases</span>
-                <span className="expertise__tag">Prompt Engineering</span>
-                <span className="expertise__tag">Google Cloud</span>
-                <span className="expertise__tag">Docker</span>
-                <span className="expertise__tag">Cloud Security</span>
+                {expertiseTags[lang].map((tag, index) => (
+                  <span key={index} className="expertise__tag" data-tooltip={tag.tooltip}>
+                    {tag.name}
+                  </span>
+                ))}
               </div>
             </div>
             <div className="about-photo">
@@ -682,17 +702,8 @@ function App() {
       {/* Footer */}
       <footer className="footer">
         <div className="container footer__inner">
-          <div className="footer__left">
-            <span>{t.footer.copyright}</span>
-            <span className="footer__divider">•</span>
-            <span>{t.footer.kvk}</span>
-          </div>
-          <span className="footer__privacy">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-            {t.footer.privacy}
-          </span>
+          <span>{t.footer.copyright}</span>
+          <span>{t.footer.kvk}</span>
         </div>
       </footer>
     </div>
