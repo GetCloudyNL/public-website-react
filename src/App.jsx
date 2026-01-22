@@ -381,7 +381,8 @@ function App() {
         <div className="container header__inner">
           <a href="#" className="logo">
             <img src="/images/logo-small.webp" alt="R" className="logo__icon" />
-            <span className="logo__text">Ralph van der Linden</span>
+            <span className="logo__text logo__text--full">Ralph van der Linden</span>
+            <span className="logo__text logo__text--short">Ralph</span>
           </a>
           <nav className="nav">
             <a href="#over">{t.nav.over}</a>

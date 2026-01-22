@@ -45,8 +45,8 @@
   flex-shrink: 0;
 }
 
-.logo__text {
-  /* Optioneel: verberg tekst op kleine schermen */
+.logo__text--short {
+  display: none;
 }
 
 .nav {
@@ -1227,8 +1227,12 @@ button:disabled {
     display: none;
   }
 
-  .logo__text {
+  .logo__text--full {
     display: none;
+  }
+
+  .logo__text--short {
+    display: inline;
   }
 
   .logo__icon {
