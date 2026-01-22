@@ -2,7 +2,7 @@
 node_modules/
 
 # Build output
-dist/
+# dist/ - commented out for deployment
 
 # OS files
 .DS_Store
