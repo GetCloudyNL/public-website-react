@@ -1,4 +1,10 @@
 /* ===== HEADER ===== */
+/* Site wrapper - prevent horizontal scroll */
+.site {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -1219,6 +1225,27 @@ button:disabled {
 @media (max-width: 768px) {
   .nav {
     display: none;
+  }
+
+  .logo__text {
+    display: none;
+  }
+
+  .logo__icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header__socials a span {
+    display: none;
+  }
+
+  .header__socials {
+    gap: 0.5rem;
+  }
+
+  .header__socials a {
+    padding: 0.5rem;
   }
 
   .hero {
